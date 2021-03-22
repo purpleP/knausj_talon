@@ -10,16 +10,16 @@ go word left:
 go word right:
     edit.word_right()
 
-go left:
+left:
     edit.left()
 
-go right:
+right:
     edit.right()
 
-go up:
+up:
     edit.up()
 
-go down:
+down:
     edit.down()
 
 go line start:
@@ -54,32 +54,32 @@ go page up:
     edit.page_up()
 
 # selecting
-select line:
-    edit.select_line()
+# select line:
+#     edit.select_line()
 
-select all:
-    edit.select_all()
+# select all:
+#     edit.select_all()
 
-select left:
-    edit.extend_left()
+# select left:
+#     edit.extend_left()
 
-select right:
-    edit.extend_right()
+# select right:
+#     edit.extend_right()
 
-select up:
-    edit.extend_line_up()
+# select up:
+#     edit.extend_line_up()
 
-select down:
-    edit.extend_line_down()
+# select down:
+#     edit.extend_line_down()
 
-select word:
-    edit.select_word()
+# select word:
+#     edit.select_word()
 
-select word left:
-    edit.extend_word_left()
+# select word left:
+#     edit.extend_word_left()
 
-select word right:
-    edit.extend_word_right()
+# select word right:
+#     edit.extend_word_right()
 
 select way left:
     edit.extend_line_start()
@@ -167,21 +167,21 @@ copy all:
 #     edit.extend_down()
 #     edit.copy()
 
-copy word:
-    edit.select_word()
-    edit.copy()
+# copy word:
+#     edit.select_word()
+#     edit.copy()
 
-copy word left:
-    edit.extend_word_left()
-    edit.copy()
+# copy word left:
+#     edit.extend_word_left()
+#     edit.copy()
 
-copy word right:
-    edit.extend_word_right()
-    edit.copy()
+# copy word right:
+#     edit.extend_word_right()
+#     edit.copy()
 
-copy line:
-    edit.select_line()
-    edit.copy()
+# copy line:
+#     edit.select_line()
+#     edit.copy()
 
 #cut commands
 cut all:
@@ -201,18 +201,19 @@ cut all:
 #     edit.select_all()
 #     edit.cut()
 
-cut word:
-    edit.select_word()
-    edit.cut()
+# cut word:
+#     edit.select_word()
+#     edit.cut()
 
-cut word left:
-    edit.extend_word_left()
-    edit.cut()
+# cut word left:
+#     edit.extend_word_left()
+#     edit.cut()
 
-cut word right:
-    edit.extend_word_right()
-    edit.cut()
+# cut word right:
+#     edit.extend_word_right()
+#     edit.cut()
 
-cut line:
-    edit.select_line()
-    edit.cut()
+# cut line:
+#     edit.select_line()
+#     edit.cut()
+
