@@ -43,6 +43,7 @@ paste above: key(P)
 save: insert(":w\n")
 change line: insert("S")
 copy line: insert("yy")
+comment line: insert("gcc")
 delete line: insert("dd")
 join [<number>] lines: insert(number or "" + "J")
 accept: key(ctrl-y)
@@ -137,9 +138,25 @@ angles:
     key(left)
 
 search: insert(":grep ")
+find up: key(?)
+find: key(/)
 close quick fix: insert(":ccl\n")
 
 git status: insert(":Gstatus\n")
 commit: insert(":Gcommit\n")
 
 alternate file: key(ctrl-^)
+
+substitute:
+    insert(":s//")
+    key(left)
+
+substitute global:
+    insert(":s//g")
+    key(left)
+    key(left)
+
+substitute all:
+    insert(":%s//g")
+    key(left)
+    key(left)
