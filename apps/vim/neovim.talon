@@ -1,7 +1,7 @@
 app: neovim
 
-add above: insert("O")
-add below: insert("o")
+line before: insert("O")
+line after: insert("o")
 insert: key(i)
 append: key(a)
 
@@ -37,16 +37,23 @@ till: key(t)
 # actions
 undo: insert("u")
 redo: key(ctrl-r)
-paste: key(p)
-paste before: key(P)
-paste above: key(P)
-save: insert(":w\n")
+paste [from <user.any_alphanumeric_key>]:
+    key(")
+    insert(any_alphanumeric_key or "\"")
+    key(p)
+
+paste before [from <user.any_alphanumeric_key>]:
+    key(")
+    insert(any_alphanumeric_key or "\"")
+    key(P)
+save changes: insert(":w\n")
 change line: insert("S")
 copy line: insert("yy")
 comment line: insert("gcc")
 delete line: insert("dd")
 join [<number>] lines: insert(number or "" + "J")
 accept: key(ctrl-y)
+edit: insert(":e ")
 
 indent pasted: insert("=']") 
 browse: insert(":Ex\n")
