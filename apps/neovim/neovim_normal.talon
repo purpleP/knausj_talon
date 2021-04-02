@@ -1,10 +1,10 @@
 app: neovim
-title: /VIM MODE:n/
+win.title: /VIM MODE:n/
 -
-tag(): user.vim_normal
+tag: user.vim_normal()
 
-line before: user.vim_line_before
-line after: user.vim_line_after
+line before: user.vim_line_before()
+line after: user.vim_line_after()
 insert: key(i)
 append: key(a)
 before: key(I)
