@@ -5,6 +5,9 @@ from talon import Context, Module, actions
 
 mod = Module()
 
+mod.tag('vim_insert', 'Insert mode in vim')
+mod.tag('vim_normal', 'Insert mode in vim')
+
 @mod.action_class
 class Actions:
     def vim_paste(key):
