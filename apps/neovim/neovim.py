@@ -4,6 +4,7 @@ from talon import Context, Module, actions
 
 
 mod = Module()
+nmod.apps.neovim = 'app.name: neovim'
 
 mod.tag('vim_insert', 'Insert mode in vim')
 mod.tag('vim_normal', 'Insert mode in vim')
@@ -31,7 +32,7 @@ tag: user.vim_normal
 @insert_mode_context.action_class('self')
 class InsertModeAction:
     def vim_paste(key: str):
-        actions.key("ctrl-r")
+        actions.key('ctrl-r')
         actions.next(key) # performs the next action implementation in the chai
 
 @normal_mode_context.action_class('self')
@@ -40,4 +41,9 @@ class NormalModeActions:
         actions.key('"')
         actions.key(key or '"')
         actions.key('p')
-        ctx.tags = ['user.vim_insert']
+    
+    def vim_line_before():
+        actions.key('O')
+    
+    def vim_line_after():
+        actions.key('o')
