@@ -1,4 +1,4 @@
-import pynvim as vi
+# import pynvim as vi
 
 from talon import Context, Module, actions
 
@@ -10,32 +10,33 @@ mod.tag('vim_normal', 'Insert mode in vim')
 
 @mod.action_class
 class Actions:
-    def vim_paste(key):
+    def vim_paste(key: str):
+        """Some doc string"""
         pass
 
 insert_mode_context = Context()
-ctx.matches = r'''
+insert_mode_context.matches = r'''
 app: neovim
 tag: user.vim_insert
 '''
 
 normal_mode_context = Context()
-ctx.matches = r'''
+normal_mode_context.matches = r'''
 app: neovim
 tag: user.vim_normal
 '''
 
 
 
-@insert_mode_context.action_class
-class Actions:
-    def vim_paste(key):
+@insert_mode_context.action_class('self')
+class InsertModeAction:
+    def vim_paste(key: str):
         actions.key("ctrl-r")
         actions.next(key) # performs the next action implementation in the chai
 
-@normal_mode_context.action_class
-class Actions:
-    def vim_paste(key):
+@normal_mode_context.action_class('self')
+class NormalModeActions:
+    def vim_paste(key: str):
         actions.key('"')
         actions.key(key or '"')
         actions.key('p')
