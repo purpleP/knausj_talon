@@ -11,7 +11,7 @@ before: key(I)
 after: key(A)
 
 # verbs
-delete: key(d)
+# delete: key(d)
 change: key(c)
 copy: key(y)
 cut: key(x)
@@ -24,13 +24,13 @@ inside: key(i)
 
 # text some-objects and motions
 
-word: key(w)
+# word: key(w)
 end: key(e)
-back: key(b)
+# back: key(b)
 
-big word: key(shift-w)
-big end: key(shift-e)
-big back: key(shift-b)
+# big word: key(shift-w)
+# big end: key(shift-e)
+# big back: key(shift-b)
 
 paragraph: key(p)
 
