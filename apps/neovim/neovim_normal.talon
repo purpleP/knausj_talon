@@ -1,7 +1,7 @@
 app: neovim
 win.title: /VIM MODE:n/
 -
-tag: user.vim_normal()
+tag(): user.vim_normal
 
 line before: user.vim_line_before()
 line after: user.vim_line_after()
@@ -42,21 +42,18 @@ till: key(t)
 # actions
 undo: insert("u")
 redo: key(ctrl-r)
-paste [from <user.any_alphanumeric_key>]:
-    key(")
-    insert(any_alphanumeric_key or "\"")
-    key(p)
 
+
+paste [from <user.any_alphanumeric_key>]:
+    user.vim_paste_after(any_alphanumeric_key or '"')
 paste before [from <user.any_alphanumeric_key>]:
-    key(")
-    insert(any_alphanumeric_key or "\"")
-    key(P)
+    user.vim_paste_before(any_alphanumeric_key or '"')
+
 save changes: insert(":w\n")
 change line: insert("S")
 copy line: insert("yy")
 comment line: insert("gcc")
 delete line: insert("dd")
-join [<number>] lines: insert(number or "" + "J")
 accept: key(ctrl-y)
 edit: insert(":e ")
 
