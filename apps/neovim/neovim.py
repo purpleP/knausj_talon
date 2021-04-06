@@ -22,6 +22,8 @@ verbs = {
 line_verbs = {
     'indent': '>',
     'dedent': '<',
+    'filter': '=',
+    'format': 'gq',
     'select line': 'V',
 }
 
@@ -104,6 +106,11 @@ normal_mode_context.matches = r'''
 app.name: Neovim
 tag: user.vim_normal
 '''
+
+@mod.capture(rule='{self.vim_verbs} [<number>] {self.vim_motions_with_letter} <user.letter>')
+def vim_verb_count_motion_letter(parts: str) -> str:
+    """Returns action"""
+    return ''.join(map(str, parts))
 
 @mod.capture(rule='[<number>] {self.vim_motions_with_letter} <user.letter>')
 def vim_count_motion_letter(parts: str) -> str:

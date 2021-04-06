@@ -12,6 +12,9 @@ tag(): user.vim_normal
 <user.vim_count_motion>$:
     insert("{vim_count_motion}")
 
+<user.vim_verb_count_motion_letter>$:
+    insert("{vim_verb_count_motion_letter}")
+
 <user.vim_count_motion_letter>$:
     insert("{vim_count_motion_letter}")
 
