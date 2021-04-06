@@ -3,6 +3,19 @@ win.title: /VIM MODE:n/
 -
 tag(): user.vim_normal
 
+<user.vim_count_verb_line_object>$:
+    insert("{vim_count_verb_line_object}")
+
+<user.vim_count_verb_object>$:
+    insert("{vim_count_verb_object}")
+
+<user.vim_count_motion>$:
+    insert("{vim_count_motion}")
+
+<user.vim_count_motion_letter>$:
+    insert("{vim_count_motion_letter}")
+
+
 line before: user.vim_line_before()
 line after: user.vim_line_after()
 insert: key(i)
@@ -10,34 +23,8 @@ append: key(a)
 before: key(I)
 after: key(A)
 
-# verbs
-# delete: key(d)
-change: key(c)
-copy: key(y)
-cut: key(x)
-cut back: key(shift-x)
-comment: insert("gc")
-exchange: insert("cx")
-
-around: key(a)
-inside: key(i)
-
-# text some-objects and motions
-
-# word: key(w)
-end: key(e)
-# back: key(b)
-
-# big word: key(shift-w)
-# big end: key(shift-e)
-# big back: key(shift-b)
-
-paragraph: key(p)
-
 top: insert("gg")
 bottom: insert("G")
-
-till: key(t)
 
 # actions
 undo: insert("u")
@@ -109,46 +96,13 @@ next hunk: insert("]c")
 previous hunk: insert("[c")
 
 show numbers: insert(":setl nu rnu\n")
-select [<number>] lines:
-    insert(number + "V")
-select line: insert("V")
-start: key(^)
-lend: key($)
 
-move center: insert("zz")
-move top: insert("zt")
-move bottom: insert("zb")
-move down: key(ctrl-y)
-move up: key(ctrl-e)
+scroll center: insert("zz")
+scroll top: insert("zt")
+scroll bottom: insert("zb")
+scroll down: key(ctrl-y)
+scroll up: key(ctrl-e)
 
-quotes:
-    key(')
-    key(')
-    key(left)
-
-double quotes:
-    key(")
-    key(")
-    key(left)
-
-braces:
-    key({)
-    key(})
-    key(left)
-
-squares:
-    key([)
-    key(])
-    key(left)
-
-angles:
-    key(<)
-    key(>)
-    key(left)
-
-search: insert(":grep ")
-find up: key(?)
-find: key(/)
 close quick fix: insert(":ccl\n")
 
 git status: insert(":Gstatus\n")

@@ -8,3 +8,29 @@ paste [from <user.any_alphanumeric_key>]:
 
 delete word:
     key(ctrl-w)
+
+quotes:
+    key(')
+    key(')
+    key(left)
+
+double quotes:
+    key(")
+    key(")
+    key(left)
+
+braces:
+    key({)
+    key(})
+    key(left)
+
+squares:
+    key([)
+    key(])
+    key(left)
+
+angles:
+    key(<)
+    key(>)
+    key(left)
+
