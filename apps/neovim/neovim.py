@@ -56,6 +56,7 @@ only_motions = {
     'search back': '?',
     'again': ';',
     'come back': ',',
+    'match': '%',
     'next end of function': ']M',
     'previous end of function': '[M',
     'next start of function': ']m',
