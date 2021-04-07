@@ -103,8 +103,12 @@ show numbers: insert(":setl nu rnu\n")
 scroll center: insert("zz")
 scroll top: insert("zt")
 scroll bottom: insert("zb")
-scroll down: key(ctrl-y)
-scroll up: key(ctrl-e)
+scroll down [<number>]:
+    insert(number or "")
+    key(ctrl-y)
+scroll up [<number>]:
+    insert(number or "")
+    key(ctrl-e)
 
 close quick fix: insert(":ccl\n")
 
@@ -112,17 +116,3 @@ git status: insert(":Gstatus\n")
 commit: insert(":Gcommit\n")
 
 alternate file: key(ctrl-^)
-
-substitute:
-    insert(":s//")
-    key(left)
-
-substitute global:
-    insert(":s//g")
-    key(left)
-    key(left)
-
-substitute all:
-    insert(":%s//g")
-    key(left)
-    key(left)
