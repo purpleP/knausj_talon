@@ -1,4 +1,4 @@
 app.name: kitty
 -
-tag(): terminal
+tag(): user.generic_terminal
 tag(): user.git
