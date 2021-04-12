@@ -9,11 +9,15 @@ mod.apps.neovim = 'app.name: neovim'
 mod.tag('vim_insert', 'Insert mode in vim')
 mod.tag('vim_normal', 'Insert mode in vim')
 
-verbs = {
+register_verbs = {
+    'copy': 'y',
     'delete': 'd',
     'change': 'c',
     'cut': 'x',
     'cut back': 'X',
+}
+
+verbs = {
     'comment': 'gc',
     'exchange': 'cx',
     'select': 'v',
@@ -36,6 +40,10 @@ only_text_objects = {
     'paragraph': 'p',
     'quotes': "'",
     'double quotes': '"',
+    'angles': '>',
+}
+
+verbs_with_register = {
 }
 
 text_objects_and_motions = {
@@ -89,11 +97,11 @@ class Actions:
 
     def vim_line_after():
         """Add line before current one"""
-        actions.key('o')
+        pass
 
     def vim_line_before():
         """Add line before current one"""
-        actions.key('O')
+        pass
 
 insert_mode_context = Context()
 insert_mode_context.matches = r'''
@@ -108,12 +116,12 @@ app.name: Neovim
 tag: user.vim_normal
 '''
 
-@mod.capture(rule='{self.vim_verbs} [<number>] {self.vim_motions_with_letter} <user.letter>')
+@mod.capture(rule='({self.vim_verbs} | {self.vim_register_verbs}) [<number>] {self.vim_motions_with_letter} <user.any_alphanumeric_key>')
 def vim_verb_count_motion_letter(parts: str) -> str:
     """Returns action"""
     return ''.join(map(str, parts))
 
-@mod.capture(rule='[<number>] {self.vim_motions_with_letter} <user.letter>')
+@mod.capture(rule='[<number>] {self.vim_motions_with_letter} {user.any_alphanumeric_key} | {user.symbol_key}')
 def vim_count_motion_letter(parts: str) -> str:
     """Returns action"""
     return ''.join(map(str, parts))
@@ -128,13 +136,22 @@ def vim_count_verb_line_object(parts: str) -> str:
     """Returns action"""
     return ''.join(map(str, parts))
 
-@mod.capture(rule='{self.vim_verbs} [<number>] [{self.vim_text_object_modifiers}] ({self.vim_text_objects_and_motions} | {self.vim_text_objects} | {self.vim_motions})')
+@mod.capture(rule='{self.vim_register_verbs} [<number>] [{self.vim_text_object_modifiers}] ({self.vim_text_objects_and_motions} | {self.vim_text_objects} | {self.vim_motions}) into ({user.any_alphanumeric_key} | {user.symbol_key})')
+def vim_count_register_verb_object(parts: str) -> str:
+    """Returns action"""
+    *rest, _, register = parts
+    return ''.join(['"', register, *rest])
+
+@mod.capture(rule='({self.vim_verbs} | {self.vim_register_verbs}) [<number>] [{self.vim_text_object_modifiers}] ({self.vim_text_objects_and_motions} | {self.vim_text_objects} | {self.vim_motions})')
 def vim_count_verb_object(parts: str) -> str:
     """Returns action"""
     return ''.join(map(str, parts))
 
 mod.list('vim_verbs', 'Vim counted verbs')
 normal_mode_context.lists['self.vim_verbs'] = {**verbs}
+
+mod.list('vim_register_verbs', 'Vim counted verbs')
+normal_mode_context.lists['self.vim_register_verbs'] = {**register_verbs}
 
 mod.list('vim_text_objects', 'Vim text objects')
 normal_mode_context.lists['self.vim_text_objects'] = {**only_text_objects}

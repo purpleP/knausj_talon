@@ -18,6 +18,9 @@ tag(): user.vim_normal
 <user.vim_count_motion_letter>$:
     insert("{vim_count_motion_letter}")
 
+<user.vim_count_register_verb_object>$:
+    insert("{vim_count_register_verb_object}")
+
 
 line before: user.vim_line_before()
 line after: user.vim_line_after()
