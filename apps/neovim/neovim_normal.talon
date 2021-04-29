@@ -91,8 +91,10 @@ previous tab:
 
 references: insert("gr")  
 definition: insert("gd")  
-choose file: insert(":CocList files\n")
-choose buffer: insert(":CocList buffers\n")
+choose: insert(":Tele\n")
+choose file: insert(":Tele find_files\n")
+choose buffer: insert(":Tele buffers\n")
+choose recent: insert(":Tele oldfiles\n")
 
 next error: insert(":cnext\n")
 previous error: insert(":cprev\n")
