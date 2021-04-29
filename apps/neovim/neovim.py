@@ -69,13 +69,14 @@ only_motions = {
     'previous end of function': '[M',
     'next start of function': ']m',
     'previous start of function': '[m',
+    'last insert': '`.'
 }
 
 motions_with_letter = {
-    'untill': 't',
-    'back untill': 'T',
-    'to': 'f',
-    'back to': 'F',
+    'to': 't',
+    'back to': 'T',
+    'forward': 'f',
+    'backward': 'F',
 }
 
 text_object_modifiers = {
@@ -116,18 +117,23 @@ app.name: Neovim
 tag: user.vim_normal
 '''
 
-@mod.capture(rule='({self.vim_verbs} | {self.vim_register_verbs}) [<number>] {self.vim_motions_with_letter} <user.any_alphanumeric_key>')
+@mod.capture(rule='({self.vim_verbs} | {self.vim_register_verbs}) [<number>] {self.vim_motions_with_letter} ({user.any_alphanumeric_key} | {user.symbol_key})')
 def vim_verb_count_motion_letter(parts: str) -> str:
     """Returns action"""
     return ''.join(map(str, parts))
 
-@mod.capture(rule='[<number>] {self.vim_motions_with_letter} {user.any_alphanumeric_key} | {user.symbol_key}')
+@mod.capture(rule='[<number>] {self.vim_motions_with_letter} ({user.any_alphanumeric_key} | {user.symbol_key})')
 def vim_count_motion_letter(parts: str) -> str:
     """Returns action"""
     return ''.join(map(str, parts))
 
 @mod.capture(rule='[<number>] {self.vim_motions}')
 def vim_count_motion(parts: str) -> str:
+    """Returns action"""
+    return ''.join(map(str, parts))
+
+@mod.capture(rule='{self.vim_line_verbs} [<number>] [{self.vim_text_object_modifiers}] {self.only_text_objects}')
+def vim_count_verb_line_object(parts: str) -> str:
     """Returns action"""
     return ''.join(map(str, parts))
 
