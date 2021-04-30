@@ -203,3 +203,11 @@ class NormalModeActions:
     
     def vim_line_after():
         actions.key('o')
+
+@ctx.action_class("win")
+class win_actions:
+    def filename():
+        title = actions.win.title()
+        _, filename  = title.rsplit(")")
+        # Assumes the last word after the last ) entry has the filename
+        return filename if "." in filename else ""
