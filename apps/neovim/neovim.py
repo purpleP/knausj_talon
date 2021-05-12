@@ -60,8 +60,6 @@ only_motions = {
     'down': 'j',
     'left': 'h',
     'right': 'l',
-    'search': '/',
-    'search back': '?',
     'again': ';',
     'come back': ',',
     'match': '%',
@@ -70,6 +68,11 @@ only_motions = {
     'next start of function': ']m',
     'previous start of function': '[m',
     'last insert': '`.'
+}
+
+search_motions = {
+    'search': '/',
+    'search back': '?',
 }
 
 motions_with_letter = {
@@ -104,6 +107,12 @@ class Actions:
         """Add line before current one"""
         pass
 
+ctx = Context()
+ctx.matches = r'''
+app: vim
+'''
+
+
 insert_mode_context = Context()
 insert_mode_context.matches = r'''
 app.name: Neovim
@@ -116,6 +125,16 @@ normal_mode_context.matches = r'''
 app.name: Neovim
 tag: user.vim_normal
 '''
+
+@mod.capture(rule='({self.vim_verbs} | {self.vim_register_verbs}) [<number>] {self.vim_search_motions} <user.text>')
+def vim_verb_count_search_motion(parts: str) -> str:
+    """Returns action"""
+    return ''.join(map(str, parts))
+
+@mod.capture(rule='[<number>] {self.vim_search_motions} <user.text>')
+def vim_count_search_motion(parts: str) -> str:
+    """Returns action"""
+    return ''.join(map(str, parts))
 
 @mod.capture(rule='({self.vim_verbs} | {self.vim_register_verbs}) [<number>] {self.vim_motions_with_letter} ({user.any_alphanumeric_key} | {user.symbol_key})')
 def vim_verb_count_motion_letter(parts: str) -> str:
@@ -179,6 +198,10 @@ normal_mode_context.lists['self.vim_motions'] = {**only_motions, **text_objects_
 
 mod.list('vim_motions_with_letter', 'Vim motions with letter')
 normal_mode_context.lists['self.vim_motions_with_letter'] = {**motions_with_letter}
+
+mod.list('vim_search_motions', 'Vim search motions')
+normal_mode_context.lists['self.vim_search_motions'] = {**search_motions}
+
 
 @insert_mode_context.action_class('self')
 class InsertModeAction:
