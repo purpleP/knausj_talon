@@ -122,7 +122,7 @@ scroll up [<number>]:
 
 close quick fix: insert(":ccl\n")
 
-git status: insert(":Gstatus\n")
-commit: insert(":Gcommit\n")
+git status: insert(":G\n")
+git commit: insert(":G commit\n")
 
 alternate file: key(ctrl-^)
