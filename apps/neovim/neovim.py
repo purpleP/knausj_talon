@@ -4,8 +4,15 @@ from talon import Context, Module, actions
 
 
 mod = Module()
-mod.apps.neovim = 'app.name: neovim'
-
+mod.apps.neovim = '''
+os: windows
+and app.name: nvim-qt.exe
+os: windows
+and app.exe: nvim-qt.exe
+os: linux
+and app.name: neovim
+'''
+ 
 mod.tag('vim_insert', 'Insert mode in vim')
 mod.tag('vim_normal', 'Insert mode in vim')
 
@@ -227,8 +234,16 @@ class NormalModeActions:
     def vim_line_after():
         actions.key('o')
 
-@ctx.action_class("win")
-class win_actions:
+@insert_mode_context.action_class("win")
+class win_actions_insert:
+    def filename():
+        title = actions.win.title()
+        _, filename  = title.rsplit(")")
+        # Assumes the last word after the last ) entry has the filename
+        return filename if "." in filename else ""
+
+@normal_mode_context.action_class("win")
+class win_actions_normal:
     def filename():
         title = actions.win.title()
         _, filename  = title.rsplit(")")
