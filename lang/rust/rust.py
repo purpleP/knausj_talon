@@ -9,7 +9,8 @@ and code.language: rust
 
 @ctx.action_class('user')
 class user_actions:
-    def code_public_function(text: str):
-        result = f'fn {text}() -> ()'
-        for i in range(6):
+    def code_default_function(text: str):
+        result = f'fn {text}() -> () ' + '{}'
+        actions.user.paste(result)
+        for i in range(10):
             actions.edit.left()
