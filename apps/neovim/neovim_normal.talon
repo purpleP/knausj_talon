@@ -21,6 +21,11 @@ tag(): user.vim_normal
 <user.vim_count_register_verb_object>$:
     insert("{vim_count_register_verb_object}")
 
+<user.vim_verb_count_search_motion>$:
+    insert("{vim_verb_count_search_motion}")
+
+<user.vim_count_search_motion>$:
+    insert("{vim_count_search_motion}")
 
 line before: user.vim_line_before()
 line after: user.vim_line_after()
