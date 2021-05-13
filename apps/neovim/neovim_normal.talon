@@ -21,6 +21,9 @@ tag(): user.vim_normal
 <user.vim_count_register_verb_object>$:
     insert("{vim_count_register_verb_object}")
 
+<user.vim_register_verb_motion_with_letter>$:
+    insert("{vim_register_verb_motion_with_letter}")
+
 <user.vim_verb_count_search_motion>$:
     insert("{vim_verb_count_search_motion}")
 
@@ -33,6 +36,8 @@ insert: key(i)
 append: key(a)
 before: key(I)
 after: key(A)
+
+no highlight: insert(":noh\n")
 
 top: insert("gg")
 bottom: insert("G")

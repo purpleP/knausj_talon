@@ -44,6 +44,7 @@ line_motions = {
 }
 
 only_text_objects = {
+    'tag': 't',
     'paragraph': 'p',
     'quotes': "'",
     'double quotes': '"',
@@ -133,7 +134,7 @@ app.name: Neovim
 tag: user.vim_normal
 '''
 
-@mod.capture(rule='({self.vim_verbs} | {self.vim_register_verbs}) [<number>] {self.vim_search_motions} <user.text>')
+@mod.capture(rule='({self.vim_verbs} | {self.vim_register_verbs}) [<number>] {self.vim_search_motions} (<user.text> | {user.any_alphanumeric_key} | {user.symbol_key})')
 def vim_verb_count_search_motion(parts: str) -> str:
     """Returns action"""
     return ''.join(map(str, parts))
@@ -142,6 +143,12 @@ def vim_verb_count_search_motion(parts: str) -> str:
 def vim_count_search_motion(parts: str) -> str:
     """Returns action"""
     return ''.join(map(str, parts))
+
+@mod.capture(rule='{self.vim_register_verbs} [<number>] {self.vim_motions_with_letter} ({user.any_alphanumeric_key} | {user.symbol_key}) into ({user.any_alphanumeric_key} | {user.symbol_key})')
+def vim_register_verb_motion_with_letter(parts: str) -> str:
+    """Returns action"""
+    *rest, _, register = parts
+    return ''.join(['"', register, *rest])
 
 @mod.capture(rule='({self.vim_verbs} | {self.vim_register_verbs}) [<number>] {self.vim_motions_with_letter} ({user.any_alphanumeric_key} | {user.symbol_key})')
 def vim_verb_count_motion_letter(parts: str) -> str:
@@ -174,7 +181,7 @@ def vim_count_register_verb_object(parts: str) -> str:
     *rest, _, register = parts
     return ''.join(['"', register, *rest])
 
-@mod.capture(rule='({self.vim_verbs} | {self.vim_register_verbs}) [<number>] [{self.vim_text_object_modifiers}] ({self.vim_text_objects_and_motions} | {self.vim_text_objects} | {self.vim_motions})')
+@mod.capture(rule='({self.vim_verbs}) [<number>] [{self.vim_text_object_modifiers}] ({self.vim_text_objects_and_motions} | {self.vim_text_objects} | {self.vim_motions})')
 def vim_count_verb_object(parts: str) -> str:
     """Returns action"""
     return ''.join(map(str, parts))
