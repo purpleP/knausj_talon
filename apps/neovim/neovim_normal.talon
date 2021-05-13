@@ -53,12 +53,16 @@ paste before [from <user.any_alphanumeric_key>]:
     user.vim_paste_before(any_alphanumeric_key or '"')
 
 save changes: insert(":w\n")
+save all: insert(":wa\n")
 change line: insert("S")
 copy line: insert("yy")
 comment line: insert("gcc")
 delete line: insert("dd")
-accept: key(ctrl-y)
 edit: insert(":e ")
+
+make <user.text>:
+    insert(":make " + text)
+    insert("\n")
 
 indent pasted: insert("=']") 
 browse: insert(":Ex\n")

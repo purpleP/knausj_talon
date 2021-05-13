@@ -9,6 +9,9 @@ paste [from <user.any_alphanumeric_key>]:
 delete word:
     key(ctrl-w)
 
+accept:
+key(ctrl-y)
+
 quotes:
     key(')
     key(')
