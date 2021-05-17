@@ -12,89 +12,28 @@ and app.exe: nvim-qt.exe
 os: linux
 and app.name: neovim
 '''
- 
+
 mod.tag('vim_insert', 'Insert mode in vim')
-mod.tag('vim_normal', 'Insert mode in vim')
+mod.tag('vim_normal', 'Normal mode in vim')
 
-register_verbs = {
-    'copy': 'y',
-    'delete': 'd',
-    'change': 'c',
-    'cut': 'x',
-    'cut back': 'X',
-}
+ctx = Context()
+ctx.matches = r'''
+app: vim
+'''
 
-verbs = {
-    'comment': 'gc',
-    'exchange': 'cx',
-    'select': 'v',
-}
 
-line_verbs = {
-    'indent': '>',
-    'dedent': '<',
-    'filter': '=',
-    'format': 'gq',
-    'select line': 'V',
-}
+insert_mode_context = Context()
+insert_mode_context.matches = r'''
+app: neovim
+tag: user.vim_insert
+'''
 
-line_motions = {
-    'up': 'k',
-    'down': 'j',
-}
 
-only_text_objects = {
-    'paragraph': 'p',
-    'quotes': "'",
-    'double quotes': '"',
-    'angles': '>',
-}
-
-verbs_with_register = {
-}
-
-text_objects_and_motions = {
-    'word': 'w',
-    'big': 'W',
-    'back': 'b',
-    'big back': 'B',
-    'end': 'e',
-    'big end': 'E',
-}
-
-only_motions = {
-    'up': 'k',
-    'down': 'j',
-    'left': 'h',
-    'right': 'l',
-    'again': ';',
-    'come back': ',',
-    'match': '%',
-    'next end of function': ']M',
-    'previous end of function': '[M',
-    'next start of function': ']m',
-    'previous start of function': '[m',
-    'last insert': '`.'
-}
-
-search_motions = {
-    'search': '/',
-    'search back': '?',
-}
-
-motions_with_letter = {
-    'to': 't',
-    'back to': 'T',
-    'forward': 'f',
-    'backward': 'F',
-}
-
-text_object_modifiers = {
-    'a': 'a',
-    'around': 'a',
-    'inner': 'i',
-    'linewise': 'V',
-}
+normal_mode_context = Context()
+normal_mode_context.matches = r'''
+app: neovim
+tag: user.vim_normal
+'''
 
 @mod.action_class
 class Actions:
@@ -114,100 +53,104 @@ class Actions:
         """Add line before current one"""
         pass
 
-ctx = Context()
-ctx.matches = r'''
-app: vim
-'''
-
-
-insert_mode_context = Context()
-insert_mode_context.matches = r'''
-app.name: Neovim
-tag: user.vim_insert
-'''
-
-
-normal_mode_context = Context()
-normal_mode_context.matches = r'''
-app.name: Neovim
-tag: user.vim_normal
-'''
-
-@mod.capture(rule='({self.vim_verbs} | {self.vim_register_verbs}) [<number>] {self.vim_search_motions} <user.text>')
-def vim_verb_count_search_motion(parts: str) -> str:
-    """Returns action"""
-    return ''.join(map(str, parts))
-
-@mod.capture(rule='[<number>] {self.vim_search_motions} <user.text>')
-def vim_count_search_motion(parts: str) -> str:
-    """Returns action"""
-    return ''.join(map(str, parts))
-
-@mod.capture(rule='({self.vim_verbs} | {self.vim_register_verbs}) [<number>] {self.vim_motions_with_letter} ({user.any_alphanumeric_key} | {user.symbol_key})')
-def vim_verb_count_motion_letter(parts: str) -> str:
-    """Returns action"""
-    return ''.join(map(str, parts))
-
-@mod.capture(rule='[<number>] {self.vim_motions_with_letter} ({user.any_alphanumeric_key} | {user.symbol_key})')
-def vim_count_motion_letter(parts: str) -> str:
-    """Returns action"""
+@mod.capture(rule='{self.vim_register_verbs} [<number>] [{self.vim_text_object_modifiers}] {self.vim_text_object_or_motion} into ({user.any_alphanumeric_key} | {user.symbol_key})')
+def vim_register_verb_count_motion(parts) -> str:
+    """Returns motions"""
     return ''.join(map(str, parts))
 
 @mod.capture(rule='[<number>] {self.vim_motions}')
-def vim_count_motion(parts: str) -> str:
+def vim_count_motion(parts) -> str:
+    """Returns motions"""
+    return ''.join(map(str, parts))
+
+@mod.capture(rule='{self.vim_register_verbs} [<number>] [{self.vim_text_object_modifiers}] {self.vim_text_object_or_motion}')
+def vim_count_register_verb_object(parts: str) -> str:
     """Returns action"""
     return ''.join(map(str, parts))
 
-@mod.capture(rule='{self.vim_line_verbs} [<number>] [{self.vim_text_object_modifiers}] {self.only_text_objects}')
-def vim_count_verb_line_object(parts: str) -> str:
-    """Returns action"""
-    return ''.join(map(str, parts))
-
-@mod.capture(rule='{self.vim_line_verbs} [<number>] {self.vim_line_motions}')
-def vim_count_verb_line_object(parts: str) -> str:
-    """Returns action"""
-    return ''.join(map(str, parts))
-
-@mod.capture(rule='{self.vim_register_verbs} [<number>] [{self.vim_text_object_modifiers}] ({self.vim_text_objects_and_motions} | {self.vim_text_objects} | {self.vim_motions}) into ({user.any_alphanumeric_key} | {user.symbol_key})')
+@mod.capture(rule='{self.vim_register_verbs} [<number>] [{self.vim_text_object_modifiers}] {self.vim_text_object_or_motion} into ({user.any_alphanumeric_key} | {user.symbol_key})')
 def vim_count_register_verb_object(parts: str) -> str:
     """Returns action"""
     *rest, _, register = parts
     return ''.join(['"', register, *rest])
 
-@mod.capture(rule='({self.vim_verbs} | {self.vim_register_verbs}) [<number>] [{self.vim_text_object_modifiers}] ({self.vim_text_objects_and_motions} | {self.vim_text_objects} | {self.vim_motions})')
-def vim_count_verb_object(parts: str) -> str:
-    """Returns action"""
-    return ''.join(map(str, parts))
-
-mod.list('vim_verbs', 'Vim counted verbs')
-normal_mode_context.lists['self.vim_verbs'] = {**verbs}
-
-mod.list('vim_register_verbs', 'Vim counted verbs')
-normal_mode_context.lists['self.vim_register_verbs'] = {**register_verbs}
-
-mod.list('vim_text_objects', 'Vim text objects')
-normal_mode_context.lists['self.vim_text_objects'] = {**only_text_objects}
-
-mod.list('vim_text_objects_and_motions', 'Vim text objects and motions')
-normal_mode_context.lists['self.vim_text_objects_and_motions'] = {**text_objects_and_motions}
+mod.list('vim_register_verbs', 'Vim register verb')
+normal_mode_context.lists['self.vim_register_verbs'] = {
+    'change': 'c',
+    'copy': 'y',
+    'cut': 'x',
+    'cut back': 'X',
+    'substitute': 's'
+}
 
 mod.list('vim_text_object_modifiers', 'Vim text object modifiers')
-normal_mode_context.lists['self.vim_text_object_modifiers'] = {**text_object_modifiers}
+normal_mode_context.lists['self.vim_text_object_modifiers'] = {
+    'a': 'a',
+    'inner': 'inner',
+}
 
-mod.list('vim_line_verbs', 'Vim line verbs')
-normal_mode_context.lists['self.vim_line_verbs'] = {**line_verbs}
+mod.list('vim_text_object_or_motion', 'Vim text object or motion')
+normal_mode_context.lists['self.vim_text_object_or_motion'] = {
+    'word': 'w',
+    'big': 'W',
+    'paragraph': 'p',
+    'quotes': "'",
+    'ticks': '`',
+    'double quotes': '"',
+    'curly': 'B',
+    'braces': 'b',
+    'block': ']',
+    'angles': '>',
+    'tag': 't',
+    'screen top': 'H',
+    'screen middle': 'M',
+    'screen low': 'L',
+    'top': 'gg',
+    'bottom': 'G',
+}
 
-mod.list('vim_line_motions', 'Vim line motions')
-normal_mode_context.lists['self.vim_line_motions'] = {**line_motions}
+mod.list('vim_motion', 'Vim motion')
+normal_mode_context.lists['self.motion'] = {
+    'word': 'w',
+    'big': 'W',
+    'back': 'b',
+    'big back': 'B',
+    'tip': 'e',
+    'big tip': 'E',
+    'tail': 'ge',
+    'big tail': 'gE',
+}
 
-mod.list('vim_motions', 'Vim motions')
-normal_mode_context.lists['self.vim_motions'] = {**only_motions, **text_objects_and_motions}
 
-mod.list('vim_motions_with_letter', 'Vim motions with letter')
-normal_mode_context.lists['self.vim_motions_with_letter'] = {**motions_with_letter}
 
-mod.list('vim_search_motions', 'Vim search motions')
-normal_mode_context.lists['self.vim_search_motions'] = {**search_motions}
+mod.list('vim_verb', 'Vim verb')
+normal_mode_context.lists['self.verb'] = {
+}
+
+
+
+mod.list('vim_motion', 'Vim motion')
+normal_mode_context.lists['self.motion'] = {
+    'word': 'w',
+    'big': 'W',
+    'back': 'b',
+    'big back': 'B',
+    'tip': 'e',
+    'big tip': 'E',
+    'tail': 'ge',
+    'big tail': 'gE',
+    'sentence': ')',
+    'back sentence': '(',
+    'section': ']]',
+    'back section': '[[',
+    'end section': '][',
+    'end back section': '[]',
+    'unmatched open parenthesis': '[(',
+    'unmatched closing parenthesis': '[)',
+    'unmatched open brace': '[{',
+    'unmatched closing brace': '[}',
+}
+
 
 
 @insert_mode_context.action_class('self')

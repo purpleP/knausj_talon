@@ -3,29 +3,8 @@ win.title: /VIM MODE:n/
 -
 tag(): user.vim_normal
 
-<user.vim_count_verb_line_object>$:
-    insert("{vim_count_verb_line_object}")
-
-<user.vim_count_verb_object>$:
-    insert("{vim_count_verb_object}")
-
-<user.vim_count_motion>$:
-    insert("{vim_count_motion}")
-
-<user.vim_verb_count_motion_letter>$:
-    insert("{vim_verb_count_motion_letter}")
-
-<user.vim_count_motion_letter>$:
-    insert("{vim_count_motion_letter}")
-
 <user.vim_count_register_verb_object>$:
     insert("{vim_count_register_verb_object}")
-
-<user.vim_verb_count_search_motion>$:
-    insert("{vim_verb_count_search_motion}")
-
-<user.vim_count_search_motion>$:
-    insert("{vim_count_search_motion}")
 
 line before: user.vim_line_before()
 line after: user.vim_line_after()
@@ -48,11 +27,10 @@ paste before [from <user.any_alphanumeric_key>]:
     user.vim_paste_before(any_alphanumeric_key or '"')
 
 save changes: insert(":w\n")
-change line: insert("S")
-copy line: insert("yy")
-comment line: insert("gcc")
-delete line: insert("dd")
-accept: key(ctrl-y)
+# change line: insert("S")
+# copy line: insert("yy")
+# comment line: insert("gcc")
+# delete line: insert("dd")
 edit: insert(":e ")
 
 indent pasted: insert("=']") 
