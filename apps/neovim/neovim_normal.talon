@@ -3,8 +3,26 @@ win.title: /VIM MODE:n/
 -
 tag(): user.vim_normal
 
+<user.vim_non_register_verb_count_motion>$:
+    insert("{vim_non_register_verb_count_motion}")
+
+<user.vim_count_motion>$:
+    insert("{vim_count_motion}")
+
+<user.vim_count_verb_object_default>$:
+    insert("{vim_count_verb_object_default}")
+
 <user.vim_count_register_verb_object>$:
     insert("{vim_count_register_verb_object}")
+
+<user.vim_motion_with_character_character_count>$:
+    insert("{vim_motion_with_character_character_count}")
+
+<user.vim_mark_motion>$:
+    insert("{vim_mark_motion}")
+
+<user.vim_non_register_verb_motion_with_character_character_count>$:
+    insert("{vim_non_register_verb_motion_with_character_character_count}")
 
 line before: user.vim_line_before()
 line after: user.vim_line_after()
@@ -12,9 +30,6 @@ insert: key(i)
 append: key(a)
 before: key(I)
 after: key(A)
-
-top: insert("gg")
-bottom: insert("G")
 
 # actions
 undo: insert("u")
@@ -27,14 +42,17 @@ paste before [from <user.any_alphanumeric_key>]:
     user.vim_paste_before(any_alphanumeric_key or '"')
 
 save changes: insert(":w\n")
-# change line: insert("S")
-# copy line: insert("yy")
-# comment line: insert("gcc")
-# delete line: insert("dd")
+change line: insert("S")
+change after: insert("C")
+change line: insert("S")
+copy line: insert("yy")
+comment line: insert("gcc")
+delete line: insert("dd")
 edit: insert(":e ")
 
 indent pasted: insert("=']") 
 browse: insert(":Ex\n")
+reselect: gv
 
 horizontal split:
     key(ctrl-w)
