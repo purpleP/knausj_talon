@@ -41,10 +41,12 @@ paste [from <user.any_alphanumeric_key>]:
 paste before [from <user.any_alphanumeric_key>]:
     user.vim_paste_before(any_alphanumeric_key or '"')
 
+mark <user.any_alphanumeric_key>:
+    insert("m" + any_alphanumeric_key)
+
 save changes: insert(":w\n")
 change line: insert("S")
 change after: insert("C")
-change line: insert("S")
 copy line: insert("yy")
 comment line: insert("gcc")
 delete line: insert("dd")
@@ -52,7 +54,7 @@ edit: insert(":e ")
 
 indent pasted: insert("=']") 
 browse: insert(":Ex\n")
-reselect: gv
+reselect: insert("gv")
 
 horizontal split:
     key(ctrl-w)
