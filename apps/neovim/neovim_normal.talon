@@ -36,6 +36,9 @@ tag(): user.vim_normal
 <user.vim_simple_verbs>$:
     insert("{vim_simple_verbs}")
 
+<user.vim_paste>$:
+    insert("{vim_paste}")
+
 line before: user.vim_line_before()
 line after: user.vim_line_after()
 insert: key(i)
