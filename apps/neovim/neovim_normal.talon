@@ -24,6 +24,18 @@ tag(): user.vim_normal
 <user.vim_non_register_verb_motion_with_character_character_count>$:
     insert("{vim_non_register_verb_motion_with_character_character_count}")
 
+<user.vim_search_phrase>$:
+    insert("{vim_search_phrase}")
+
+<user.vim_search_letters>$:
+    insert("{vim_search_letters}")
+
+<user.vim_register_verb_motion_with_character_character_count>$:
+    insert("{vim_register_verb_motion_with_character_character_count}")
+
+<user.vim_simple_verbs>$:
+    insert("{vim_simple_verbs}")
+
 line before: user.vim_line_before()
 line after: user.vim_line_after()
 insert: key(i)
@@ -35,11 +47,6 @@ after: key(A)
 undo: insert("u")
 redo: key(ctrl-r)
 
-
-paste [from <user.any_alphanumeric_key>]:
-    user.vim_paste_after(any_alphanumeric_key or '"')
-paste before [from <user.any_alphanumeric_key>]:
-    user.vim_paste_before(any_alphanumeric_key or '"')
 
 mark <user.any_alphanumeric_key>:
     insert("m" + any_alphanumeric_key)
