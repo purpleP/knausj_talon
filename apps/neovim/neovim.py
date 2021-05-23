@@ -54,15 +54,15 @@ class Actions:
         pass
 
 @mod.capture(rule='({self.vim_non_register_verbs} | {self.vim_register_verbs}) [<number>]  ([{self.vim_text_object_modifiers}] {self.vim_text_object} | {self.vim_motions})')
-def vim_non_register_verb_count_motion(parts) -> str:
+def vim_non_register_verb_count_motion(match) -> str:
     """Returns motions"""
-    return ''.join(map(str, parts))
+    return ''.join(map(str, match))
 
 
 @mod.capture(rule='[<number>] {self.vim_motions}')
-def vim_count_motion(parts) -> str:
+def vim_count_motion(match) -> str:
     """Returns motions"""
-    return ''.join(map(str, parts))
+    return ''.join(map(str, match))
 
 mod.list('vim_register_verbs', 'Vim register verb')
 normal_mode_context.lists['self.vim_register_verbs'] = {
@@ -76,16 +76,16 @@ normal_mode_context.lists['self.vim_register_verbs'] = {
 
 
 @mod.capture(rule='{self.vim_register_verbs} [<number>] ([{self.vim_text_object_modifiers}] {self.vim_text_object} | {self.vim_motions}) into (<user.letter>|<digits>|<user.symbol_key>)')
-def vim_count_register_verb_object(parts: str) -> str:
+def vim_count_register_verb_object(match) -> str:
     """Returns action"""
-    *rest, _, register = parts
+    *rest, _, register = match
     return ''.join(['"', register, *rest])
 
 
 @mod.capture(rule='{self.vim_register_verbs} [<number>] ([{self.vim_text_object_modifiers}] {self.vim_text_object} | {self.vim_motions})')
-def vim_count_verb_object_default(parts: str) -> str:
+def vim_count_verb_object_default(match) -> str:
     """Returns action"""
-    return ''.join(map(str, parts))
+    return ''.join(map(str, match))
 
 
 mod.list('vim_non_register_verbs', 'Vim non-register verb')
@@ -128,9 +128,9 @@ normal_mode_context.lists['self.vim_mark_motions'] = {
 
 
 @mod.capture(rule='[({self.vim_non_register_verbs} | {self.vim_register_verbs})] {self.vim_mark_motions} (<user.letter>|<digits>|<user.symbol_key>)')
-def vim_mark_motion(parts: str) -> str:
+def vim_mark_motion(match) -> str:
     """Returns action"""
-    return ''.join(map(str, parts))
+    return ''.join(map(str, match))
 
 
 mod.list('vim_motions_with_character', 'Vim motion with character')
@@ -143,29 +143,29 @@ normal_mode_context.lists['self.vim_motions_with_character'] = {
 
 
 @mod.capture(rule='{self.vim_register_verbs} {self.vim_motions_with_character} (<user.letter>|<digits>|<user.symbol_key>) [<number>]')
-def vim_register_verb_motion_with_character_character_count(parts: str) -> str:
+def vim_register_verb_motion_with_character_character_count(match) -> str:
     """Returns action"""
-    verb, motion, char, *number, into, register  = parts
+    verb, motion, char, *number, into, register  = match
     return ''.join(map(str, [verb, *number, motion, char]))
 
 @mod.capture(rule='{self.vim_register_verbs} {self.vim_motions_with_character} (<user.letter>|<digits>|<user.symbol_key>) [<number>] into (<user.letter>|<digits>|<user.symbol_key>)')
-def vim_register_verb_motion_with_character_character_count(parts: str) -> str:
+def vim_register_verb_motion_with_character_character_count(match) -> str:
     """Returns action"""
-    verb, motion, char, *number, into, register  = parts
+    verb, motion, char, *number, into, register  = match
     return ''.join(map(str, [f'"{register}', verb, *number, motion, char]))
 
 
 @mod.capture(rule='({self.vim_non_register_verbs}| {self.vim_register_verbs}) {self.vim_motions_with_character} (<user.letter>|<digits>|<user.symbol_key>) [<number>]')
-def vim_non_register_verb_motion_with_character_character_count(parts: str) -> str:
+def vim_non_register_verb_motion_with_character_character_count(match) -> str:
     """Returns action"""
-    verb, motion, char, *number = parts
+    verb, motion, char, *number = match
     return ''.join(map(str, [verb, *number, motion, char]))
 
 
 @mod.capture(rule='{self.vim_motions_with_character} (<user.letter>|<digits>|<user.symbol_key>) [<number>]')
-def vim_motion_with_character_character_count(parts: str) -> str:
+def vim_motion_with_character_character_count(match) -> str:
     """Returns action"""
-    motion, char, *number = parts
+    motion, char, *number = match
     return ''.join(map(str, [*number, motion, char]))
 
 
@@ -192,6 +192,10 @@ normal_mode_context.lists['self.vim_motions'] = {
     'screen top': 'H',
     'screen middle': 'M',
     'screen low': 'L',
+    'up': 'k',
+    'down': 'j',
+    'left': 'h',
+    'right': 'l',
     'top': 'gg',
     'bottom': 'G',
 }
@@ -203,19 +207,19 @@ normal_mode_context.lists['self.vim_search_motions'] = {
 }
 
 @mod.capture(rule='[<number>] {self.vim_search_motions} phrase <user.text>')
-def vim_search_phrase(parts: str) -> str:
+def vim_search_phrase(match) -> str:
     """Returns action"""
-    *number, search, _, phrase = parts
+    *number, search, _, phrase = match
     return ''.join(map(str, [*number, search, phrase]))
 
 
 @mod.capture(rule='[<number>] {self.vim_search_motions} [<user.letters>]')
-def vim_search_letters(parts: str) -> str:
+def vim_search_letters(match) -> str:
     """Returns action"""
-    return ''.join(map(str, parts))
+    return ''.join(map(str, match))
 
 
-mod.list('vim_simple_verbs', 'Vim search motion')
+mod.list('vim_simple_verbs', 'Vim simple verbs')
 normal_mode_context.lists['self.vim_simple_verbs'] = {
     'cut': 'x',
     'cut back': 'X',
@@ -223,21 +227,60 @@ normal_mode_context.lists['self.vim_simple_verbs'] = {
 
 
 @mod.capture(rule='[<number>] {self.vim_simple_verbs}')
-def vim_simple_verbs(parts: str) -> str:
+def vim_simple_verbs(match) -> str:
     """Returns action"""
-    return ''.join(map(str, parts))
+    return ''.join(map(str, match))
 
 
-mod.list('vim_paste_verbs', 'Vim search motion')
+mod.list('vim_paste_verbs', 'Vim paste verbs')
 normal_mode_context.lists['self.vim_paste_verbs'] = {
     'paste': 'p',
     'paste before': 'P',
 }
 
 
-@mod.capture(rule='[<number>] {self.vim_paste_verbs}')
-def vim_paste(parts: str) -> str:
+@mod.capture(rule='[<number>] {self.vim_paste_verbs} [from (<user.letter>|<digits>|<user.symbol_key>)]')
+def vim_paste(match) -> str:
     """Returns action"""
+    number = getattr(match, 'number', '')
+    parts = [number, match.vim_paste_verbs]
+    if len(match) == 4 or len(match) == 3:
+        parts.append(match[-1])
+    return ''.join(map(str, parts))
+
+
+mod.list('vim_run_macro_verbs', 'Vim run macro verbs')
+normal_mode_context.lists['self.vim_run_macro_verbs'] = {
+    'run macro': '@',
+}
+
+
+@mod.capture(rule='[<number>] {self.vim_run_macro_verbs} [from (<user.letter>|<digit>)]')
+def vim_run_macro(match) -> str:
+    """Returns action"""
+    number = getattr(match, 'number', '')
+    parts = [number, match.vim_run_macro_verbs]
+    if len(match) == 4 or len(match) == 3:
+        parts.append(match[-1])
+    else:
+        parts.append('@')
+    return ''.join(map(str, parts))
+
+
+mod.list('vim_record_macro_verbs', 'Vim record macro verbs')
+normal_mode_context.lists['self.vim_record_macro_verbs'] = {
+    'record macro': 'q',
+}
+
+
+@mod.capture(rule='{self.vim_record_macro_verbs} [into (<user.letter>|<digit>)]')
+def vim_record_macro(match) -> str:
+    """Returns action"""
+    parts = [match.vim_record_macro_verbs]
+    if len(match) == 3:
+        parts.append(match[-1])
+    else:
+        parts.append('q')
     return ''.join(map(str, parts))
 
 
