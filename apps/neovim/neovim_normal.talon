@@ -39,6 +39,12 @@ tag(): user.vim_normal
 <user.vim_paste>$:
     insert("{vim_paste}")
 
+<user.vim_run_macro>$:
+    insert("{vim_run_macro}")
+
+<user.vim_record_macro>$:
+    insert("{vim_record_macro}")
+
 line before: user.vim_line_before()
 line after: user.vim_line_after()
 insert: key(i)
@@ -128,9 +134,12 @@ scroll up [<number>]:
     insert(number or "")
     key(ctrl-e)
 
-close quick fix: insert(":ccl\n")
+close fixes: insert(":ccl\n")
+close locations : insert(":ccl\n")
 
 git status: insert(":G\n")
 git commit: insert(":G commit\n")
+git push: insert(":G push\n")
+git push force: insert(":G push --force\n")
 
 alternate file: key(ctrl-^)
