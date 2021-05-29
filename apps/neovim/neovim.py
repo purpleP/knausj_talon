@@ -141,7 +141,6 @@ normal_mode_context.lists['self.vim_motions_with_character'] = {
     'back untill': 'T',
 }
 
-
 @mod.capture(rule='{self.vim_register_verbs} {self.vim_motions_with_character} (<user.letter>|<digits>|<user.symbol_key>) [<number>]')
 def vim_register_verb_motion_with_character_character_count(match) -> str:
     """Returns action"""
@@ -172,6 +171,7 @@ def vim_motion_with_character_character_count(match) -> str:
 mod.list('vim_motions', 'Vim motion')
 normal_mode_context.lists['self.vim_motions'] = {
     'word': 'w',
+    'matching': '%',
     'big': 'W',
     'back': 'b',
     'big back': 'B',
@@ -192,8 +192,8 @@ normal_mode_context.lists['self.vim_motions'] = {
     'screen top': 'H',
     'screen middle': 'M',
     'screen low': 'L',
-    'up': 'k',
-    'down': 'j',
+    'line up': 'k',
+    'line down': 'j',
     'left': 'h',
     'right': 'l',
     'top': 'gg',
@@ -255,7 +255,7 @@ normal_mode_context.lists['self.vim_run_macro_verbs'] = {
 }
 
 
-@mod.capture(rule='[<number>] {self.vim_run_macro_verbs} [from (<user.letter>|<digit>)]')
+@mod.capture(rule='[<number>] {self.vim_run_macro_verbs} [from (<user.letter>|<digits>)]')
 def vim_run_macro(match) -> str:
     """Returns action"""
     number = getattr(match, 'number', '')
@@ -273,7 +273,7 @@ normal_mode_context.lists['self.vim_record_macro_verbs'] = {
 }
 
 
-@mod.capture(rule='{self.vim_record_macro_verbs} [into (<user.letter>|<digit>)]')
+@mod.capture(rule='{self.vim_record_macro_verbs} [into (<user.letter>|<digits>)]')
 def vim_record_macro(match) -> str:
     """Returns action"""
     parts = [match.vim_record_macro_verbs]
@@ -282,6 +282,12 @@ def vim_record_macro(match) -> str:
     else:
         parts.append('q')
     return ''.join(map(str, parts))
+
+
+mod.list('vim_quickfix', 'Vim record macro verbs')
+normal_mode_context.lists['self.vim_record_macro_verbs'] = {
+    'record macro': 'q',
+}
 
 
 @insert_mode_context.action_class('self')

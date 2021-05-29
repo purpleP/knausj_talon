@@ -115,10 +115,42 @@ choose file: insert(":Tele find_files\n")
 choose buffer: insert(":Tele buffers\n")
 choose recent: insert(":Tele oldfiles\n")
 
-next error: insert(":cnext\n")
-previous error: insert(":cprev\n")
-next location: insert(":lnext\n")
-previous location: insert(":lprev\n")
+jump out: key("ctrl-o")
+jump in: key("ctrl-i")
+
+jump to current error: insert(":cc\n")
+
+jump to error <number>:
+    insert(":cc ")
+    insert(number)
+    insert("\n")
+
+jump to current location: insert(":ll\n")
+
+jump to location <number>:
+    insert(":ll ")
+    insert(number)
+    insert("\n")
+
+jump to previous error [<number>]:
+    insert(":")
+    insert(number or 1)
+    insert("cprevious\n")
+
+jump to next error [<number>]:
+    insert(":")
+    insert(number or 1)
+    insert("cnext\n")
+
+jump to previous location [<number>]:
+    insert(":")
+    insert(number or 1)
+    insert("lprevious\n")
+
+jump to next location [<number>]:
+    insert(":")
+    insert("lnext\n")
+
 next hunk: insert("]c")
 previous hunk: insert("[c")
 
@@ -134,8 +166,9 @@ scroll up [<number>]:
     insert(number or "")
     key(ctrl-e)
 
+open fixes: insert(":copen\n")
 close fixes: insert(":ccl\n")
-close locations : insert(":ccl\n")
+close locatons : insert(":ccl\n")
 
 git status: insert(":G\n")
 git commit: insert(":G commit\n")
