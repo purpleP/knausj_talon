@@ -215,8 +215,14 @@ normal_mode_context.lists['self.vim_search_motions'] = {
     'search back': '?',
 }
 
-@mod.capture(rule='[<number>] {self.vim_search_motions} <user.format_text>')
+@mod.capture(rule='[<number>] {self.vim_search_motions} phrase <user.text>')
 def vim_search_phrase(match) -> str:
+    """Returns action"""
+    return ''.join(map(str, [getattr(match, 'number', ''), match.vim_search_motions, match.text]))
+
+
+@mod.capture(rule='[<number>] {self.vim_search_motions} <user.format_text>')
+def vim_search_formatted_text(match) -> str:
     """Returns action"""
     return ''.join(map(str, [getattr(match, 'number', ''), match.vim_search_motions, match.format_text]))
 

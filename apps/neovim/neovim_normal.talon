@@ -45,6 +45,9 @@ tag(): user.vim_normal
 <user.vim_record_macro>$:
     insert("{vim_record_macro}")
 
+<user.vim_search_formatted_text>$:
+    insert("{vim_search_formatted_text}")
+
 line before: user.vim_line_before()
 line after: user.vim_line_after()
 insert: key(i)
