@@ -53,7 +53,7 @@ class Actions:
         """Add line before current one"""
         pass
 
-@mod.capture(rule='({self.vim_non_register_verbs} | {self.vim_register_verbs}) [<number>]  ([{self.vim_text_object_modifiers}] {self.vim_text_object} | {self.vim_motions})')
+@mod.capture(rule='({self.vim_non_register_verbs} | {self.vim_register_verbs}) [<number>] ([{self.vim_text_object_modifiers}] {self.vim_text_object} | [{self.vim_verb_motion_modifiers}] {self.vim_motions})')
 def vim_non_register_verb_count_motion(match) -> str:
     """Returns motions"""
     return ''.join(map(str, match))
@@ -75,14 +75,14 @@ normal_mode_context.lists['self.vim_register_verbs'] = {
 }
 
 
-@mod.capture(rule='{self.vim_register_verbs} [<number>] ([{self.vim_text_object_modifiers}] {self.vim_text_object} | {self.vim_motions}) into (<user.letter>|<digits>|<user.symbol_key>)')
+@mod.capture(rule='{self.vim_register_verbs} [<number>] ([{self.vim_text_object_modifiers}] {self.vim_text_object} | [{self.vim_verb_motion_modifiers}] {self.vim_motions}) into (<user.letter>|<digits>|<user.symbol_key>)')
 def vim_count_register_verb_object(match) -> str:
     """Returns action"""
     *rest, _, register = match
     return ''.join(['"', register, *rest])
 
 
-@mod.capture(rule='{self.vim_register_verbs} [<number>] ([{self.vim_text_object_modifiers}] {self.vim_text_object} | {self.vim_motions})')
+@mod.capture(rule='{self.vim_register_verbs} [<number>] ([{self.vim_text_object_modifiers}] {self.vim_text_object} | [{self.vim_verb_motion_modifiers}] {self.vim_motions})')
 def vim_count_verb_object_default(match) -> str:
     """Returns action"""
     return ''.join(map(str, match))
@@ -96,6 +96,11 @@ normal_mode_context.lists['self.vim_non_register_verbs'] = {
     'filter': '=',
     'indent': '>',
     'dedent': '<',
+}
+
+mod.list('vim_verb_motion_modifiers', 'Vim verb modifiers')
+normal_mode_context.lists['self.vim_verb_motion_modifiers'] = {
+    'linewise': 'V',
 }
 
 mod.list('vim_text_object_modifiers', 'Vim text object modifiers')
@@ -141,20 +146,20 @@ normal_mode_context.lists['self.vim_motions_with_character'] = {
     'back untill': 'T',
 }
 
-@mod.capture(rule='{self.vim_register_verbs} {self.vim_motions_with_character} (<user.letter>|<digits>|<user.symbol_key>) [<number>]')
+@mod.capture(rule='{self.vim_register_verbs} [{self.vim_verb_motion_modifiers}] {self.vim_motions_with_character} (<user.letter>|<digits>|<user.symbol_key>) [<number>]')
 def vim_register_verb_motion_with_character_character_count(match) -> str:
     """Returns action"""
     verb, motion, char, *number, into, register  = match
     return ''.join(map(str, [verb, *number, motion, char]))
 
-@mod.capture(rule='{self.vim_register_verbs} {self.vim_motions_with_character} (<user.letter>|<digits>|<user.symbol_key>) [<number>] into (<user.letter>|<digits>|<user.symbol_key>)')
+@mod.capture(rule='{self.vim_register_verbs} [{self.vim_verb_motion_modifiers}] {self.vim_motions_with_character} (<user.letter>|<digits>|<user.symbol_key>) [<number>] into (<user.letter>|<digits>|<user.symbol_key>)')
 def vim_register_verb_motion_with_character_character_count(match) -> str:
     """Returns action"""
     verb, motion, char, *number, into, register  = match
     return ''.join(map(str, [f'"{register}', verb, *number, motion, char]))
 
 
-@mod.capture(rule='({self.vim_non_register_verbs}| {self.vim_register_verbs}) {self.vim_motions_with_character} (<user.letter>|<digits>|<user.symbol_key>) [<number>]')
+@mod.capture(rule='({self.vim_non_register_verbs}| {self.vim_register_verbs}) [{self.vim_verb_motion_modifiers}] (<user.letter>|<digits>|<user.symbol_key>) [<number>]')
 def vim_non_register_verb_motion_with_character_character_count(match) -> str:
     """Returns action"""
     verb, motion, char, *number = match
@@ -186,6 +191,10 @@ normal_mode_context.lists['self.vim_motions'] = {
     'end section': '][',
     'end back section': '[]',
     'unmatched open parenthesis': '[(',
+    'next start of method': ']m',
+    'next end of method': ']M',
+    'previous start of method': '[m',
+    'previous end of method': '[M',
     'unmatched closing parenthesis': '[)',
     'unmatched open brace': '[{',
     'unmatched closing brace': '[}',
@@ -206,11 +215,10 @@ normal_mode_context.lists['self.vim_search_motions'] = {
     'search back': '?',
 }
 
-@mod.capture(rule='[<number>] {self.vim_search_motions} phrase <user.text>')
+@mod.capture(rule='[<number>] {self.vim_search_motions} <user.format_text>')
 def vim_search_phrase(match) -> str:
     """Returns action"""
-    *number, search, _, phrase = match
-    return ''.join(map(str, [*number, search, phrase]))
+    return ''.join(map(str, [getattr(match, 'number', ''), match.vim_search_motions, match.format_text]))
 
 
 @mod.capture(rule='[<number>] {self.vim_search_motions} [<user.letters>]')
@@ -236,6 +244,8 @@ mod.list('vim_paste_verbs', 'Vim paste verbs')
 normal_mode_context.lists['self.vim_paste_verbs'] = {
     'paste': 'p',
     'paste before': 'P',
+    'paste indented': ']p',
+    'paste indented before': '[p',
 }
 
 
