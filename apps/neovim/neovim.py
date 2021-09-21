@@ -15,6 +15,7 @@ and app.name: neovim
 
 mod.tag('vim_insert', 'Insert mode in vim')
 mod.tag('vim_normal', 'Normal mode in vim')
+mod.tag('vim_command', 'Command mode in vim')
 
 ctx = Context()
 ctx.matches = r'''
@@ -28,11 +29,16 @@ app: neovim
 tag: user.vim_insert
 '''
 
-
 normal_mode_context = Context()
 normal_mode_context.matches = r'''
 app: neovim
 tag: user.vim_normal
+'''
+
+command_mode_context = Context()
+command_mode_context.matches = r'''
+app: neovim
+tag: user.vim_command
 '''
 
 @mod.action_class
@@ -40,7 +46,7 @@ class Actions:
     def vim_paste_before(key: str):
         """Paste from register before the cursor"""
         pass
-    
+
     def vim_paste_after(key: str):
         """Paste from register after the cursor"""
         pass
@@ -321,30 +327,30 @@ class NormalModeActions:
         actions.key('"')
         actions.key(key or '"')
         actions.key('P')
-    
+
     def vim_paste_after(key: str):
         actions.key('"')
         actions.key(key or '"')
         actions.key('p')
-    
+
     def vim_line_before():
         actions.key('O')
-    
+
     def vim_line_after():
         actions.key('o')
 
-@insert_mode_context.action_class("win")
+@insert_mode_context.action_class('win')
 class win_actions_insert:
     def filename():
         title = actions.win.title()
-        _, filename  = title.rsplit(")")
+        _, filename  = title.rsplit(' ', 1)
         # Assumes the last word after the last ) entry has the filename
-        return filename if "." in filename else ""
+        return filename if '.' in filename else ''
 
-@normal_mode_context.action_class("win")
+@normal_mode_context.action_class('win')
 class win_actions_normal:
     def filename():
         title = actions.win.title()
-        _, filename  = title.rsplit(")")
+        _, filename  = title.rsplit(' ', 1)
         # Assumes the last word after the last ) entry has the filename
-        return filename if "." in filename else ""
+        return filename if '.' in filename else ''

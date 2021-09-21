@@ -30,6 +30,9 @@ tag(): user.vim_normal
 <user.vim_search_letters>$:
     insert("{vim_search_letters}")
 
+<user.vim_search_formatted_text>$:
+    insert("{vim_search_formatted_text}")
+
 <user.vim_register_verb_motion_with_character_character_count>$:
     insert("{vim_register_verb_motion_with_character_character_count}")
 
@@ -44,9 +47,6 @@ tag(): user.vim_normal
 
 <user.vim_record_macro>$:
     insert("{vim_record_macro}")
-
-<user.vim_search_formatted_text>$:
-    insert("{vim_search_formatted_text}")
 
 line before: user.vim_line_before()
 line after: user.vim_line_after()
@@ -70,7 +70,7 @@ copy line: insert("yy")
 comment line: insert("gcc")
 delete line: insert("dd")
 
-indent pasted: insert("=']") 
+indent pasted: insert("=']")
 browse: insert(":Ex\n")
 reselect: insert("gv")
 
@@ -110,8 +110,8 @@ previous tab:
     key(g)
     key(T)
 
-references: insert("gr")  
-definition: insert("gd")  
+references: insert("gr")
+definition: insert("gd")
 choose: insert(":Tele\n")
 choose file: insert(":Tele find_files\n")
 choose buffer: insert(":Tele buffers\n")
@@ -158,9 +158,6 @@ previous hunk: insert("[c")
 
 show numbers: insert(":setl nu rnu\n")
 
-scroll center: insert("zz")
-scroll top: insert("zt")
-scroll bottom: insert("zb")
 scroll down [<number>]:
     insert(number or "")
     key(ctrl-y)
@@ -190,3 +187,15 @@ alternate file: key(ctrl-^)
 edit: insert(":e ")
 new buffer: insert(":enew ")
 new vertical buffer: insert(":vnew ")
+rename: insert(":lua vim.lsp.buf.rename()\n")
+actions: insert(":lua vim.lsp.buf.code_action()\n")
+
+change directory: insert(":cd ")
+change tab directory: insert(":tcd ")
+change local directory: insert(":lcd ")
+
+make check: insert(":make check\n")
+make: insert(":make ")
+
+find: insert(":grep ")
+local find: insert(":lgrep ")
