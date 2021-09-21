@@ -321,6 +321,14 @@ class InsertModeAction:
         actions.key('ctrl-r')
         actions.key(key or '"') # performs the next action implementation in the chai
 
+
+@insert_mode_context.action_class('edit')
+class InsertModeEditActions:
+    def paste():
+        actions.key('ctrl-r')
+        actions.key('plus')
+
+
 @normal_mode_context.action_class('self')
 class NormalModeActions:
     def vim_paste_before(key: str):
@@ -339,8 +347,6 @@ class NormalModeActions:
     def vim_line_after():
         actions.key('o')
 
-@insert_mode_context.action_class('win')
-class win_actions_insert:
     def filename():
         title = actions.win.title()
         _, filename  = title.rsplit(' ', 1)
