@@ -268,9 +268,8 @@ normal_mode_context.lists['self.vim_paste_verbs'] = {
 def vim_paste(match) -> str:
     """Returns action"""
     number = getattr(match, 'number', '')
-    parts = [number, match.vim_paste_verbs]
-    if len(match) == 4 or len(match) == 3:
-        parts.append(match[-1])
+    register = '"' if len(match) < 3 else match[-1]
+    parts = [number, '"', register, match.vim_paste_verbs]
     return ''.join(map(str, parts))
 
 
