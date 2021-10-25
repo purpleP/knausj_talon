@@ -3,6 +3,7 @@ app.name: kitty
 tag(): user.file_manager
 tag(): user.git
 tag(): user.kubectl
+tag(): user.cargo
 tag(): terminal
 
 suspend: key(ctrl-z)
