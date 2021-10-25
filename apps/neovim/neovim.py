@@ -70,6 +70,16 @@ def vim_count_motion(match) -> str:
     """Returns motions"""
     return ''.join(map(str, match))
 
+mod.list('vim_command', 'Vim commands')
+normal_mode_context.lists['self.vim_command'] = {
+    'echo': 'echo',
+    'edit': 'edit',
+    'make': 'make',
+    'search': 'grep',
+    'write all': 'wall',
+    'write': 'write',
+}
+
 mod.list('vim_register_verbs', 'Vim register verb')
 normal_mode_context.lists['self.vim_register_verbs'] = {
     'change': 'c',
@@ -149,10 +159,10 @@ def vim_mark_motion(match) -> str:
 
 mod.list('vim_motions_with_character', 'Vim motion with character')
 normal_mode_context.lists['self.vim_motions_with_character'] = {
-    'to': 'f',
-    'back to': 'F',
-    'untill': 't',
-    'back untill': 'T',
+    'move for': 'f',
+    'move back for': 'F',
+    'move to': 't',
+    'move back to': 'T',
 }
 
 @mod.capture(rule='{self.vim_register_verbs} [{self.vim_verb_motion_modifiers}] {self.vim_motions_with_character} (<user.letter>|<digits>|<user.symbol_key>) [<number>]')
@@ -200,6 +210,10 @@ normal_mode_context.lists['self.vim_motions'] = {
     'end section': '][',
     'end back section': '[]',
     'unmatched open parenthesis': '[(',
+    'next hunk': ']c',
+    'previous hunk': '[c',
+    'next paragraph': '}',
+    'previous paragraph': '{',
     'next start of method': ']m',
     'next end of method': ']M',
     'previous start of method': '[m',

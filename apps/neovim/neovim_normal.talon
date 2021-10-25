@@ -102,17 +102,15 @@ equalize windows:
 
 create tab: insert(":tabnew\n")
 
-next tab:
-    key(g)
-    key(t)
+go tab <user.number>: insert("{number}gt")
+next tab: insert("gt")
 
-previous tab:
-    key(g)
-    key(T)
+previous tab: insert("gT")
 
 references: insert("gr")
 definition: insert("gd")
 pick: insert(":Tele\n")
+pick commit: insert(":Tele git_commits")
 pick file: insert(":Tele find_files\n")
 pick buffer: insert(":Tele buffers\n")
 pick recent: insert(":Tele oldfiles\n")
@@ -153,9 +151,6 @@ jump to next location [<number>]:
     insert(":")
     insert("lnext\n")
 
-next hunk: insert("]c")
-previous hunk: insert("[c")
-
 show numbers: insert(":setl nu rnu\n")
 
 scroll down [<number>]:
@@ -172,6 +167,7 @@ close locatons : insert(":ccl\n")
 git add current file: insert(":G add %\n")
 git add patch: insert(":G add -p\n")
 git rebase onto <user.text>: insert(":G rebase {text}\n")
+git rebase abort: insert(":G rebase --abort")
 git continue rebase: insert(":G rebase --continue\n")
 git interactive rebase onto <user.text> : insert(":G rebase -i {text}\n")
 git interactive rebase onto root: insert(":G rebase -i --root\n")
@@ -198,6 +194,10 @@ actions: insert(":lua vim.lsp.buf.code_action()\n")
 change directory: insert(":cd ")
 change tab directory: insert(":tcd ")
 change local directory: insert(":lcd ")
+
+command {user.vim_command}: insert(":{vim_command} ")
+execute {user.vim_command}: insert(":{vim_command}\n")
+execute last: insert("@:")
 
 make check: insert(":make check\n")
 make fix: insert(":make fix --allow-dirty --allow-staged\n")
