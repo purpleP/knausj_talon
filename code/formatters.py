@@ -13,6 +13,9 @@ words_to_keep_lowercase = (
     "a an the at by for in is of on to up and as but or nor".split()
 )
 
+DEFAULT_SEPARATOR = ' '
+SMASH_SEPARATOR = ''
+
 # The last phrase spoken, without & with formatting. Used for reformatting.
 last_phrase = ""
 last_phrase_formatted = ""
