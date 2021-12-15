@@ -86,7 +86,7 @@ normal_mode_context.lists['self.vim_register_verbs'] = {
     'copy': 'y',
     'cut': 'x',
     'cut back': 'X',
-    'delete': 'd',
+    'clear': 'd',
     'substitute': 's',
 }
 

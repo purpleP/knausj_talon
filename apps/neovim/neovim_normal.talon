@@ -68,7 +68,7 @@ change line: insert("S")
 change after: insert("C")
 copy line: insert("yy")
 comment line: insert("gcc")
-delete line: insert("dd")
+clear line: insert("dd")
 
 indent pasted: insert("=']")
 browse: insert(":Ex\n")
@@ -102,7 +102,7 @@ equalize windows:
 
 create tab: insert(":tabnew\n")
 
-go tab <user.number>: insert("{number}gt")
+go tab <number>: insert("{number}gt")
 next tab: insert("gt")
 
 previous tab: insert("gT")
@@ -183,6 +183,9 @@ git push: insert(":G push\n")
 git push force: insert(":G push --force\n")
 git log: insert(":G log\n")
 git graph: insert(":G log --graph --all --oneline\n")
+git diff <user.text>: insert(":Gdiff {text}\n")
+git diff <user.text>: insert(":Gdiff {text}\n")
+git diff: insert(":Gdiff ")
 
 alternate file: key(ctrl-^)
 edit: insert(":e ")
