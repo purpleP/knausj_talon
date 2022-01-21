@@ -19,4 +19,3 @@ copy paste:
     edit.copy()
     sleep(50ms)
     edit.paste()
-kill all: user.terminal_kill_all()

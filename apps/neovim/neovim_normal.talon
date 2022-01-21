@@ -184,7 +184,6 @@ git push force: insert(":G push --force\n")
 git log: insert(":G log\n")
 git graph: insert(":G log --graph --all --oneline\n")
 git diff <user.text>: insert(":Gdiff {text}\n")
-git diff <user.text>: insert(":Gdiff {text}\n")
 git diff: insert(":Gdiff ")
 
 alternate file: key(ctrl-^)

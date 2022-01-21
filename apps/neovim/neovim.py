@@ -19,7 +19,7 @@ mod.tag('vim_command', 'Command mode in vim')
 
 ctx = Context()
 ctx.matches = r'''
-app: vim
+app: neovim
 '''
 
 
@@ -360,14 +360,9 @@ class NormalModeActions:
     def vim_line_after():
         actions.key('o')
 
-    def filename():
-        title = actions.win.title()
-        _, filename  = title.rsplit(' ', 1)
-        # Assumes the last word after the last ) entry has the filename
-        return filename if '.' in filename else ''
 
-@normal_mode_context.action_class('win')
-class win_actions_normal:
+@ctx.action_class('win')
+class win_actions:
     def filename():
         title = actions.win.title()
         _, filename  = title.rsplit(' ', 1)
