@@ -19,6 +19,11 @@ double quotes:
     key(")
     key(left)
 
+expand:
+    key(enter:2)
+    edit.up()
+    key(tab)
+
 braces:
     key({)
     key(})
