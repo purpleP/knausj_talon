@@ -66,6 +66,94 @@ ctx.lists["self.language_mode"] = {
 
 # Maps extension to languages.
 extension_lang_map = {
+    ".asm": "assembly",
+    ".bat": "batch",
+    ".c": "c",
+    ".cmake": "cmake",
+    ".cpp": "cplusplus",
+    ".cs": "csharp",
+    ".gdb": "gdb",
+    ".go": "go",
+    ".h": "c",
+    ".hpp": "cplusplus",
+    ".java": "java",
+    ".js": "javascript",
+    ".jsx": "javascript",
+    ".json": "json",
+    ".lua": "lua",
+    ".md": "markdown",
+    ".pl": "perl",
+    ".ps1": "powershell",
+    ".py": "python",
+    ".r": "r",
+    ".rb": "ruby",
+    ".s": "assembly",
+    ".scala": "scala",
+    ".sh": "bash",
+    ".snippets": "snippets",
+    ".talon": "talon",
+    ".ts": "typescript",
+    ".tsx": "typescript",
+    ".vba": "vba",
+    ".vim": "vimscript",
+    ".vimrc": "vimscript",
+=======
+key = actions.key
+extension_lang_map = {
+    ".asm": "assembly",
+    ".bat": "batch",
+    ".c": "c",
+    ".cmake": "cmake",
+    ".cpp": "cplusplus",
+    ".cs": "csharp",
+    ".gdb": "gdb",
+    ".go": "go",
+    ".h": "c",
+    ".hpp": "cplusplus",
+    ".java": "java",
+    ".js": "javascript",
+    ".jsx": "javascript",
+    ".json": "json",
+    ".lua": "lua",
+    ".md": "markdown",
+    ".pl": "perl",
+    ".ps1": "powershell",
+    ".py": "python",
+    ".r": "r",
+    ".rb": "ruby",
+    ".s": "assembly",
+    ".scala": "scala",
+    ".sh": "bash",
+    ".snippets": "snippets",
+    ".talon": "talon",
+    ".ts": "typescript",
+    ".tsx": "typescript",
+    ".tf": "terraform",
+    ".vba": "vba",
+    ".vim": "vimscript",
+    ".vimrc": "vimscript",
+>>>>>>> 2248d54d (Add support for terraform (#752))
+}
+
+# Override speakable forms for language modes. If not present, a language mode's
+# name is used directly.
+language_name_overrides = {
+    "cplusplus": ["see plus plus"],
+    "csharp": ["see sharp"],
+    "css": ["c s s"],
+    "gdb": ["g d b"],
+    "go": ["go", "go lang", "go language"],
+    "r": ["are language"],
+}
+mod.list("language_mode", desc="Name of a programming language mode.")
+ctx.lists["self.language_mode"] = {
+    name: language
+    for language in language_extensions
+    for name in language_name_overrides.get(language, [language])
+}
+
+# Maps extension to languages.
+extension_lang_map = {
     "." + ext: language
     for language, extensions in language_extensions.items()
     for ext in extensions.split()
