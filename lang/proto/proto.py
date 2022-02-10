@@ -24,3 +24,15 @@ ctx.lists["user.code_type"] = {
     "double": "double",
     "float": "float",
 }
+
+@ctx.action_class('user')
+class UserActions:
+    def code_insert_function(text: str, selection: str):
+        actions.user.paste(f'{text}({selection or ""})')
+        actions.edit.left()
+
+    def code_default_function(text: str):
+        actions.insert('rpc ')
+        formatter = settings.get('user.code_public_function_formatter')
+        function_name = actions.user.formatted_text(text, formatter)
+        actions.user.code_insert_function(function_name, None)
