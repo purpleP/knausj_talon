@@ -6,17 +6,15 @@ tag(): user.vim_insert
 paste [from <user.any_alphanumeric_key>]:
     user.vim_paste_after(any_alphanumeric_key or '"')
 
-delete word:
+kill word:
     key(ctrl-w)
 
 quotes:
-    key(')
-    key(')
+    key(':2)
     key(left)
 
 double quotes:
-    key(")
-    key(")
+    key(":2)
     key(left)
 
 expand:
@@ -39,3 +37,4 @@ angles:
     key(>)
     key(left)
 
+norm: key(esc)

@@ -197,13 +197,14 @@ change directory: insert(":cd ")
 change tab directory: insert(":tcd ")
 change local directory: insert(":lcd ")
 
-command {user.vim_command}: insert(":{vim_command} ")
-execute {user.vim_command}: insert(":{vim_command}\n")
-execute last: insert("@:")
+com {user.vim_command}: insert(":{vim_command} ")
+exec {user.vim_command}: insert(":{vim_command}\n")
+exec last: "@:"
 
 make check: insert(":make check\n")
 make fix: insert(":make fix --allow-dirty --allow-staged\n")
 make format: insert(":make fmt\n")
 
-find: insert(":grep ")
-local find: insert(":lgrep ")
+find: ":grep "
+local find: ":lgrep "
+com: ":"
