@@ -103,9 +103,9 @@ equalize windows:
 create tab: insert(":tabnew\n")
 
 go tab <number>: insert("{number}gt")
-next tab: insert("gt")
-
-previous tab: insert("gT")
+tab next: insert("gt")
+tab previous: insert("gT")
+tab close: insert(":tabc\n")
 
 references: insert("gr")
 definition: insert("gd")

@@ -366,3 +366,7 @@ class UserActions:
         actions.edit.find(text)
         actions.sleep("100ms")
         actions.key("esc")
+
+    def cursorless_record_navigation_test():
+        """Run cursorless record navigation test"""
+        actions.user.vscode_with_plugin("cursorless.recordTestCase", {"isHatTokenMapTest": True})

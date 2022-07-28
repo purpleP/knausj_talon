@@ -159,16 +159,16 @@ def vim_mark_motion(match) -> str:
 
 mod.list('vim_motions_with_character', 'Vim motion with character')
 normal_mode_context.lists['self.vim_motions_with_character'] = {
-    'move for': 'f',
-    'move back for': 'F',
-    'move to': 't',
-    'move back to': 'T',
+    'past': 'f',
+    'back past': 'F',
+    'pre': 't',
+    'back pre': 'T',
 }
 
 @mod.capture(rule='{self.vim_register_verbs} [{self.vim_verb_motion_modifiers}] {self.vim_motions_with_character} (<user.letter>|<digits>|<user.symbol_key>) [<number>]')
 def vim_register_verb_motion_with_character_character_count(match) -> str:
     """Returns action"""
-    verb, motion, char, *number, into, register  = match
+    verb, motion, char, into, register, *number = match
     return ''.join(map(str, [verb, *number, motion, char]))
 
 @mod.capture(rule='{self.vim_register_verbs} [{self.vim_verb_motion_modifiers}] {self.vim_motions_with_character} (<user.letter>|<digits>|<user.symbol_key>) [<number>] into (<user.letter>|<digits>|<user.symbol_key>)')
