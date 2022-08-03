@@ -149,6 +149,7 @@ jump to previous location [<number>]:
 
 jump to next location [<number>]:
     insert(":")
+    insert(number or 1)
     insert("lnext\n")
 
 show numbers: insert(":setl nu rnu\n")
