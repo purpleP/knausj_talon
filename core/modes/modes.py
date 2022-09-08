@@ -9,6 +9,7 @@ modes = {
     "ida": "a way to force ida commands to be loaded",
     "presentation": "a more strict form of sleep where only a more strict wake up command works",
     "windbg": "a way to force windbg commands to be loaded",
+    "lldb": "a way to force lldb commands to be loaded",
 }
 
 for key, value in modes.items():
