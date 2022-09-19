@@ -108,7 +108,7 @@ ctx.matches = r"""
 tag: user.lldb
 """
 
-@ctx.action_class("user")
+@ctx.action_class("debugger")
 class UserActions:
     ##
     # Generic debugger actions

@@ -1,7 +1,7 @@
 win.title: /lldb/
 -
 tag(): user.lldb
-tag(): user.debugger
+tag(): debugger
 
 print: "frame var "
 until <number>: "thread until {number}\n"
