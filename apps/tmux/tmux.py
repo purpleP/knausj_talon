@@ -4,9 +4,9 @@ ctx = Context()
 mod = Module()
 
 ctx.matches = r"""
-win.title: /tmux /
+win.title: /tmux/
 """
-ctx.tags = ["splits"]
+ctx.tags = ["user.tmux"]
 
 setting_tmux_prefix_key = mod.setting(
     "tmux_prefix_key",
