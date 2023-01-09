@@ -17,3 +17,4 @@ cargo add [<user.format_text>]:
     insert(format_text or "")
 cargo fix: "cargo fix"
 cargo tree: "cargo tree"
+cargo run: "cargo run"

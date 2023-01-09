@@ -33,6 +33,7 @@ settings():
 ## for unsafe rust
 state unsafe: "unsafe "
 unsafe block: user.code_state_unsafe()
+of type: ": "
 
 ## rust centric struct and enum definitions
 state (struct | structure) <user.text>:
@@ -47,8 +48,9 @@ toggle use: user.code_toggle_libraries()
 
 ## Simple aliases
 borrow: "&"
-borrow mutable: "&mut "
+borrow (mutable | mute): "&mut "
 state (a sink | async | asynchronous): "async "
+state (a sink | async | asynchronous) (funk | func | function): "async fn"
 state (pub | public): "pub "
 state (pub | public) crate: "pub(crate) "
 state (dyn | dynamic): "dyn "
@@ -66,7 +68,11 @@ state match: user.code_state_switch()
 state (some | sum): "Some"
 state static: "static "
 self taught: "self."
+dot await: ".await"
 state use: user.code_import()
+diamond:
+    insert("<>")
+    key(left)
 
 use <user.code_libraries>:
     user.code_insert_library(code_libraries, "")
