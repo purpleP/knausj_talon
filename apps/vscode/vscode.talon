@@ -15,6 +15,9 @@ please [<user.text>]:
     user.vscode("workbench.action.showCommands")
     insert(user.text or "")
 
+
+notify:
+    app.notify("notificaton")
 # Sidebar
 bar explore: user.vscode("workbench.view.explorer")
 bar extensions: user.vscode("workbench.view.extensions")

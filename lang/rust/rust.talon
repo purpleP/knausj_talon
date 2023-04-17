@@ -34,6 +34,7 @@ settings():
 state unsafe: "unsafe "
 unsafe block: user.code_state_unsafe()
 of type: ": "
+dub colon: "::"
 
 ## rust centric struct and enum definitions
 state (struct | structure) <user.text>:

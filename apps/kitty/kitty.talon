@@ -5,6 +5,7 @@ tag(): user.git
 tag(): user.kubectl
 tag(): user.openshift
 tag(): user.cargo
+tag(): user.docker
 tag(): terminal
 
 suspend: key(ctrl-z)
